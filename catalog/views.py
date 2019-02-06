@@ -54,6 +54,7 @@ def search(request):
         	'paginate': True,
             'title': query,
             'image': product.picture,
+            'query': query,
         }
 
     except AttributeError:

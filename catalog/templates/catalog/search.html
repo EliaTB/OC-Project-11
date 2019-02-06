@@ -47,6 +47,29 @@
 					</div>
 				{% endfor %}
 
+				{% if paginate %}
+				{% url 'catalog:search' as alt_url %}
+
+				  {% if alt_products.has_previous %}
+				    <a class="btn btn-outline-dark mb-4" href="?query={{query}}&page=1">Début</a>
+				    <a class="btn btn-outline-dark mb-4" href="?query={{query}}&page={{ alt_products.previous_page_number }}">Précedent</a>
+				  {% endif %}
+
+				  {% for num in alt_products.paginator.page_range %}
+				    {% if alt_products.number == num %}
+				      <a class="btn btn-dark mb-4" href="?query={{query}}&page={{ num }}">{{ num }}</a>
+				    {% elif num > alt_products.number|add:'-3' and num < alt_products.number|add:'3' %}
+				      <a class="btn btn-outline-dark mb-4" href="?query={{query}}&page={{ num }}">{{ num }}</a>
+				    {% endif %}
+				  {% endfor %}
+
+				  {% if alt_products.has_next %}
+				    <a class="btn btn-outline-dark mb-4" href="?query={{query}}&page={{ alt_products.next_page_number }}">Suivant</a>
+				    <a class="btn btn-outline-dark mb-4" href="?query={{query}}&page={{ alt_products.paginator.num_pages }}">Fin</a>
+				  {% endif %}
+
+				{% endif %}
+
 				<div class="clearfix"></div>                
 		</div>
 	</div>	
