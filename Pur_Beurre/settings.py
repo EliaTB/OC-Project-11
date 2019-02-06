@@ -32,14 +32,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'catalog.apps.CatalogConfig',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'catalog.apps.CatalogConfig',
-    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -125,6 +125,18 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = 'catalog:index'
 
 LOGIN_URL = 'login'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+USER = os.environ.get('EMAIL_USER')
+PASS = os.environ.get('EMAIL_PASS')
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = USER
+EMAIL_HOST_PASSWORD = PASS
+
 
 # Activate Django-Heroku.
 # django_heroku.settings(locals())
