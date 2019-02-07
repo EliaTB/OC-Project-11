@@ -23,7 +23,7 @@ def legal(request):
 def autocomplete(request):
 
 	if request.is_ajax():
-		query = request.GET.get('terme', '')
+		query = request.GET.get('term', '')
 		products = Product.objects.filter(name__icontains=query).order_by("-nutrition_grade")[:10]
 		results = []
 		for p in products:
@@ -90,7 +90,3 @@ def add_favorite(request, product_id):
         UserFavorite.objects.create(user_name_id=request.user.id, product_id=(product_id))
         messages.success(request, 'Le produit a bien été enregistré.')
         return redirect(request.META.get('HTTP_REFERER'))
-
-
-
-

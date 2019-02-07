@@ -30,18 +30,31 @@ class DataTests(TestCase):
 
 
 	def test_search_returns_200(self):
-		Pizza = str('Pizza')
 		response = self.client.get(reverse('catalog:search'), {
-			'query': Pizza,
+			'query': 'Pizza',
 		})
 		self.assertEqual(response.status_code, 200)
 
 	def test_search_page_redirect_302(self):
-		Pizza = str('invalid name')
 		response = self.client.get(reverse('catalog:search'), {
-			'query': Pizza,
+			'query': 'Nutella',
 		})
 		self.assertEqual(response.status_code, 302)
+
+	def test_autocomplete_success(self):
+		response = self.client.get(reverse('catalog:autocomplete'),
+                                {'term': "pi"},
+                                HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+		
+		self.assertEqual(response.content, b'["Pizza"]')
+
+	def test_autocomplete_no_result(self):
+		response = self.client.get(reverse('catalog:autocomplete'),
+                                {'term': "nutella"},
+                                HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+		
+		self.assertEqual(response.content, b'[]')
+
 
 
 # class CommandTestCase(TestCase):
